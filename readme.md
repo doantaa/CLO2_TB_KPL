@@ -46,7 +46,7 @@ Game ini memungkinkan pengguna memilih dan memainkan beberapa mini game berbasis
 ## 📁 Struktur Proyek
 
 ```
-project-name/
+CLO2_TB_KPL/
 ├── main.py                  # Launcher utama
 ├── requirements.txt         # Dependensi project
 ├── tic_tac_toe/
