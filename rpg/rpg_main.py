@@ -1,5 +1,5 @@
-def rpg_main():
+def main():
     print("=== RPG Game ===")
 
 if __name__ == "__main__":
-    rpg_main()
+    main()
