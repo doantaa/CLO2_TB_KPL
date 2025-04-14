@@ -18,7 +18,7 @@ Game ini memungkinkan pengguna memilih dan memainkan beberapa mini game berbasis
 |----------------------|---------------------------------------|--------------------------------|
 | ❌ Tic Tac Toe       | Permainan strategi dua pemain         | `tic_tac_toe/tic_tac_toe_main.py` |
 | 🛡️ RPG Mini Game     | Game RPG sederhana berbasis teks      | `rpg/rpg_main.py`              |
-| ⌨️ Typing Speed Game | Uji kecepatan mengetik dan tebak kata | `typing_speed/typing_speed_main.py` |
+| ⌨️ Guess Words Game | Uji kecepatan mengetik dan tebak kata | `typing_speed/typing_speed_main.py` |
 
 ## 🚀 Cara Menjalankan Proyek
 
@@ -54,7 +54,8 @@ CLO2_TB_KPL/
 ├── rpg/
 │   └── rpg_main.py
 ├── typing_speed/
-│   └── typing_speed_main.py
+│   └── geuss_words_main.py
+│   └── config.json
 └── README.md                # Dokumentasi proyek
 ```
 
