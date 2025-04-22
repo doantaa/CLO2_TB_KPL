@@ -1,56 +1,24 @@
 import time
 import random
-import json
-import os
-import sys
+import requests
 
-WORDS = ["python", "keyboard", "runtime", "variable", "function",
-         "object", "modular", "looping", "import", "random"]
-
-def load_config():
-    config_path = os.path.join(os.path.dirname(__file__), "config.json")
+def fetch_words_from_api(length=5, max_results=10):
+    assert isinstance(length, int) and length > 0, "length harus bilangan bulat positif"
+    assert isinstance(max_results, int) and max_results > 0, "max_results harus bilangan bulat positif"
+    
     try:
-        with open(config_path) as f:
-            config = json.load(f)
-    except FileNotFoundError:
-        print("❌ config.json tidak ditemukan.")
-        sys.exit(1)
+        pattern = "?" * length
+        url = f"https://api.datamuse.com/words?sp={pattern}&max={max_results}"
+        response = requests.get(url)
+        response.raise_for_status()
+        data = response.json()
 
-    validate_config(config)
-    return config
+        words = [item["word"] for item in data if item["word"].isalpha()]
+        return words if words else ["default", "kata", "cadangan"]
+    except requests.RequestException:
+        print("❌ Gagal mengambil kata dari Datamuse API. Gunakan fallback.")
+        return ["default", "kata", "cadangan"]
 
-def validate_config(config):
-    assert config.get("mode") in ["susun", "tebak"], "Config error: mode harus 'susun' atau 'tebak'."
-    assert isinstance(config.get("rounds"), int) and config["rounds"] > 0, "Config error: rounds harus > 0."
-
-def get_user_config(default_config):
-    print("\n📦 Runtime Config Detected:")
-    print(f"Mode default: {default_config['mode']}")
-    print(f"Jumlah ronde default: {default_config['rounds']}")
-
-    pilih = input("Gunakan config ini? (y/n): ").strip().lower()
-    if pilih == 'y':
-        return default_config
-    else:
-        # Interaktif input
-        while True:
-            mode = input("Pilih mode (susun / tebak): ").strip().lower()
-            if mode in ["susun", "tebak"]:
-                break
-            print("❗ Mode tidak valid.")
-
-        while True:
-            try:
-                rounds = int(input("Jumlah ronde (angka > 0): "))
-                if rounds > 0:
-                    break
-            except ValueError:
-                pass
-            print("❗ Jumlah ronde tidak valid.")
-
-        user_config = {"mode": mode, "rounds": rounds}
-        validate_config(user_config)
-        return user_config
 
 def countdown(seconds):
     print("⏳ Persiapan...")
@@ -59,17 +27,20 @@ def countdown(seconds):
         time.sleep(1)
     print("\n💥 Mulai!")
 
-def play_susun_kata(config):
+def play_susun_kata(words, rounds, cheat=False):
     print("\n🧠 Susun Kata!")
     score = 0
 
-    for i in range(config["rounds"]):
+    for i in range(rounds):
         print(f"\n🔀 Round {i+1}")
-        word = random.choice(WORDS)
+        word = random.choice(words)
         scrambled = ''.join(random.sample(word, len(word)))
         assert sorted(scrambled) == sorted(word)
 
         print(f"Susun huruf ini: {scrambled}")
+        if cheat:
+            print(f"💡 (Jawaban: {word})")
+
         answer = input("➤ Jawaban kamu: ")
 
         if answer.strip().lower() == word:
@@ -78,15 +49,15 @@ def play_susun_kata(config):
         else:
             print(f"❌ Salah! Jawaban: {word}")
 
-    print(f"\n🏁 Selesai! Skor kamu: {score}/{config['rounds']}")
+    print(f"\n🏁 Selesai! Skor kamu: {score}/{rounds}")
 
-def play_hangman(config):
-    print("\n🕵️ Tebak Kata (Tebak Kata)!")
+def play_hangman(words, rounds):
+    print("\n🕵️ Tebak Kata!")
     score = 0
 
-    for i in range(config["rounds"]):
+    for i in range(rounds):
         print(f"\n🎯 Round {i+1}")
-        word = random.choice(WORDS)
+        word = random.choice(words)
         guessed = ["_"] * len(word)
         attempts = len(word) + 2
 
@@ -113,18 +84,27 @@ def play_hangman(config):
         else:
             print(f"😢 Gagal! Jawaban: {word}")
 
-    print(f"\n🏁 Selesai! Skor kamu: {score}/{config['rounds']}")
+    print(f"\n🏁 Selesai! Skor kamu: {score}/{rounds}")
 
-def guess_words_main():
-    default_config = load_config()
-    config = get_user_config(default_config)
+def main():
+    try:
+        length = int(input("Masukkan panjang kata yang diinginkan (misal 5): "))
+    except ValueError:
+        print("❗ Input tidak valid, gunakan angka. Default ke 5.")
+        length = 5
 
-    print("=== 🎮 GAME SUSUN KATA & TEBAK KATA ===")
+    words = fetch_words_from_api(length=length)
+    rounds = 3
+    mode = input("Pilih mode (susun / tebak): ").strip().lower()
 
-    if config["mode"] == "susun":
-        play_susun_kata(config)
-    elif config["mode"] == "hangman":
-        play_hangman(config)
+    # Buat presentasi biar keliatan jawabannya
+    cheat = True
+    countdown(3)
+
+    if mode == "susun":
+        play_susun_kata(words, rounds, cheat)
+    elif mode == "tebak":
+        play_hangman(words, rounds)
     else:
         print("❌ Mode tidak dikenal.")
 
