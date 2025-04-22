@@ -1,49 +1,61 @@
 # ====================
 # Game Logic
 # ====================
+
 import random
-
-from characters import Character, Player
-from configuration import CONFIG
-
-
-def choose_enemy():
-    enemy_data = random.choice(CONFIG["enemies"])
-    return Character(**enemy_data)
+import os
+import configuration
+from player import Enemy
 
 
-def battle(player: Player, enemy: Character):
-    print(f"⚔️ Pertarungan dimulai: {player.name} vs {enemy.name}")
 
-    original_def = player.defense
-    while player.is_alive() and enemy.is_alive():
-        print(f"{player}")
-        print(f"{enemy}")
+def clear_screen():
+    os.system('cls' if os.name == 'nt' else 'clear')
 
-        # Display action menu
-        for i, (key, action) in enumerate(CONFIG["actions"].items(), 1):
-            print(f"{i}. {action['label']}")
-        choice = input("Pilih aksi: ")
+def battle(player, enemy):
+    while player.hp > 0 and enemy.hp > 0:
 
-        try:
-            action_key = list(CONFIG["actions"].keys())[int(choice) - 1]
-            action = CONFIG["actions"][action_key]
-            action["effect"](player, enemy)
-        except (IndexError, ValueError):
-            print("Pilihan tidak valid.")
-            continue
+        input("\nTekan Enter untuk menyerang...")
+        dmg = player.attack()
+        enemy.hp -= dmg
 
-        if enemy.is_alive():
-            damage = enemy.deal_damage()
-            print(f"{enemy.name} menyerang balik!")
-            player.take_damage(damage)
+        if enemy.hp <= 0:
+            print(f"✅ {enemy.name} kalah!")
+            player.gain_exp(50)
+            input("\nTekan Enter untuk melanjutkan...")
+            clear_screen()
+            return
 
-        # Reset defense if defended
-        player.reset_defense(original_def)
+        edmg = enemy.attack()
+        player.hp -= edmg
+        clear_screen()
+        player.print_header()
+        enemy.print_header()
+        print(f"\n⚔️  Pertarungan dimulai: {player.name} vs {enemy.name}!\n")
+        print(f"👉 {player.name} menyerang {enemy.name} dengan {dmg} damage!")
+        print(f"💢 {enemy.name} menyerang {player.name} dengan {edmg} damage!")
 
-    # Result
-    if player.is_alive():
-        print(f"🎉 {player.name} menang!")
+
+    if player.hp <= 0:
+        print("💀 Kamu kalah! Game over.")
+        exit()
+
+
+def random_event(player):
+    event_keys = list(configuration.ENEMIES.keys()) + ["healing"]
+    chosen = random.choice(event_keys)
+
+    if chosen == "healing":
+        print("\n🔍 Kamu menemukan buah segar di tanah!")
+        heal_player(player)
     else:
-        print(f"💀 {player.name} kalah... Coba lagi nanti.")
+        enemy_data = configuration.ENEMIES[chosen]
+        enemy = Enemy(chosen, enemy_data["hp"], enemy_data["attack_range"])
+        enemy.print_header()
+        print(f"\n🔍 Kamu bertemu seekor {enemy.name}!")
+        battle(player, enemy)
 
+def heal_player(player):
+    heal = random.randint(15, 30)
+    player.hp = min(player.max_hp, player.hp + heal)
+    print(f"🍌 Kamu makan buah dan memulihkan {heal} HP! Sekarang: {player.hp}/{player.max_hp}")
