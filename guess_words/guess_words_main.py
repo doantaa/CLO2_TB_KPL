@@ -1,6 +1,24 @@
+title = """
+
+                           ('-.    .-')     .-')           (`\ .-') /`             _  .-')  _ .-') _    .-')    
+                         _(  OO)  ( OO ).  ( OO ).          `.( OO ),'            ( \( -O )( (  OO) )  ( OO ).  
+  ,----.    ,--. ,--.   (,------.(_)---\_)(_)---\_)      ,--./  .--.   .-'),-----. ,------. \     .'_ (_)---\_) 
+ '  .-./-') |  | |  |    |  .---'/    _ | /    _ |       |      |  |  ( OO'  .-.  '|   /`. ',`'--..._)/    _ |  
+ |  |_( O- )|  | | .-')  |  |    \  :` `. \  :` `.       |  |   |  |, /   |  | |  ||  /  | ||  |  \  '\  :` `.  
+ |  | .--, \|  |_|( OO )(|  '--.  '..`''.) '..`''.)      |  |.'.|  |_)\_) |  |\|  ||  |_.' ||  |   ' | '..`''.) 
+(|  | '. (_/|  | | `-' / |  .--' .-._)   \.-._)   \      |         |    \ |  | |  ||  .  '.'|  |   / :.-._)   \ 
+ |  '--'  |('  '-'(_.-'  |  `---.\       /\       /      |   ,'.   |     `'  '-'  '|  |\  \ |  '--'  /\       / 
+  `------'   `-----'     `------' `-----'  `-----'       '--'   '--'       `-----' `--' '--'`-------'  `-----'  
+                                                                                                                         
+"""
+
 import time
 import random
 import requests
+import os 
+
+def clear_screen():
+    os.system('cls' if os.name == 'nt' else 'clear')
 
 def fetch_words_from_api(length=5, max_results=10):
     assert isinstance(length, int) and length > 0, "length harus bilangan bulat positif"
@@ -18,7 +36,6 @@ def fetch_words_from_api(length=5, max_results=10):
     except requests.RequestException:
         print("❌ Gagal mengambil kata dari Datamuse API. Gunakan fallback.")
         return ["default", "kata", "cadangan"]
-
 
 def countdown(seconds):
     print("⏳ Persiapan...")
@@ -87,6 +104,9 @@ def play_hangman(words, rounds):
     print(f"\n🏁 Selesai! Skor kamu: {score}/{rounds}")
 
 def main():
+    clear_screen()
+    print(title)
+    
     try:
         length = int(input("Masukkan panjang kata yang diinginkan (misal 5): "))
     except ValueError:
@@ -97,14 +117,13 @@ def main():
     rounds = 3
     mode = input("Pilih mode (susun / tebak): ").strip().lower()
 
-    # Buat presentasi biar keliatan jawabannya
     cheat = True
     countdown(3)
 
     if mode == "susun":
         play_susun_kata(words, rounds, cheat)
     elif mode == "tebak":
-        play_hangman(words, rounds)
+        play_hangman(words, 1)
     else:
         print("❌ Mode tidak dikenal.")
 

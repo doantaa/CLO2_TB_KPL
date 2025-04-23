@@ -3,15 +3,21 @@ Main Menu Game Launcher
 Menampilkan menu terminal dan mengeksekusi game sesuai pilihan pengguna.
 """
 
-from simple_term_menu import TerminalMenu
+import platform
 import subprocess
 import sys
-
-
 import os
+
+# Import sesuai OS
+if platform.system() == "Windows":
+    from InquirerPy import inquirer
+else:
+    from simple_term_menu import TerminalMenu
+
 
 def clear_screen():
     os.system('cls' if os.name == 'nt' else 'clear')
+
 
 def run_game(path: str):
     """
@@ -40,15 +46,15 @@ def main():
     menu_options = [
         "Tic Tac Toe",
         "RPG",
-        "Typing Speed Game",
+        "Guess Words",
         "Keluar"
     ]
 
     actions = {
-        0: lambda: run_game("tic_tac_toe/tic_tac_toe_main.py"),
-        1: lambda: run_game("rpg/rpg_main.py"),
-        2: lambda: run_game("guess_words/guess_words_main.py"),
-        3: exit_program
+        "Tic Tac Toe": lambda: run_game("tic_tac_toe/tic_tac_toe_main.py"),
+        "RPG": lambda: run_game("rpg/rpg_main.py"),
+        "Guess Words": lambda: run_game("guess_words/guess_words_main.py"),
+        "Keluar": exit_program
     }
 
     while True:
@@ -60,20 +66,27 @@ def main():
  | |\/| | | '_ \| | | | |_ |/ _` | '_ ` _ \ / _ |
  | |  | | | | | | | | |__| | (_| | | | | | |  __/
  |_|  |_|_|_| |_|_|  \_____|\__,_|_| |_| |_|\___|
-  _______                     _  _               
- |__   __|                   | || |              
-    | | ___  __ _ _ __ ___   | || |_             
+  _______                     _  _                
+ |__   __|                   | || |               
+    | | ___  __ _ _ __ ___   | || |_              
     | |/ _ \/ _` | '_ ` _ \  |__   _|            
-    | |  __/ (_| | | | | | |    | |              
-    |_|\___|\__,_|_| |_| |_|    |_|              
-                                                 
-                                                 
+    | |  __/ (_| | | | | | |    | |               
+    |_|\___|\__,_|_| |_| |_|    |_|               
         """
-        terminal_menu = TerminalMenu(menu_options, title=title)
-        selected_index = terminal_menu.show()
 
-        action = actions.get(selected_index)
+        print(title)
 
+        if platform.system() == "Windows":
+            selected_option = inquirer.select(
+                message="Pilih game yang ingin dijalankan:",
+                choices=menu_options
+            ).execute()
+        else:
+            terminal_menu = TerminalMenu(menu_options)
+            selected_index = terminal_menu.show()
+            selected_option = menu_options[selected_index]
+
+        action = actions.get(selected_option)
         if action:
             action()
         else:
