@@ -46,14 +46,14 @@ def main():
     menu_options = [
         "Tic Tac Toe",
         "RPG",
-        "Typing Speed Game",
+        "Guess Words",
         "Keluar"
     ]
 
     actions = {
         "Tic Tac Toe": lambda: run_game("tic_tac_toe/tic_tac_toe_main.py"),
         "RPG": lambda: run_game("rpg/rpg_main.py"),
-        "Typing Speed Game": lambda: run_game("guess_words/guess_words_main.py"),
+        "Guess Words": lambda: run_game("guess_words/guess_words_main.py"),
         "Keluar": exit_program
     }
 

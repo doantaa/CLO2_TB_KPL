@@ -1,3 +1,17 @@
+print(r"""
+
+                           ('-.    .-')     .-')           (`\ .-') /`             _  .-')  _ .-') _    .-')    
+                         _(  OO)  ( OO ).  ( OO ).          `.( OO ),'            ( \( -O )( (  OO) )  ( OO ).  
+  ,----.    ,--. ,--.   (,------.(_)---\_)(_)---\_)      ,--./  .--.   .-'),-----. ,------. \     .'_ (_)---\_) 
+ '  .-./-') |  | |  |    |  .---'/    _ | /    _ |       |      |  |  ( OO'  .-.  '|   /`. ',`'--..._)/    _ |  
+ |  |_( O- )|  | | .-')  |  |    \  :` `. \  :` `.       |  |   |  |, /   |  | |  ||  /  | ||  |  \  '\  :` `.  
+ |  | .--, \|  |_|( OO )(|  '--.  '..`''.) '..`''.)      |  |.'.|  |_)\_) |  |\|  ||  |_.' ||  |   ' | '..`''.) 
+(|  | '. (_/|  | | `-' / |  .--' .-._)   \.-._)   \      |         |    \ |  | |  ||  .  '.'|  |   / :.-._)   \ 
+ |  '--'  |('  '-'(_.-'  |  `---.\       /\       /      |   ,'.   |     `'  '-'  '|  |\  \ |  '--'  /\       / 
+  `------'   `-----'     `------' `-----'  `-----'       '--'   '--'       `-----' `--' '--'`-------'  `-----'  
+                                                                                                                         
+""")
+
 import time
 import random
 import requests
@@ -18,7 +32,6 @@ def fetch_words_from_api(length=5, max_results=10):
     except requests.RequestException:
         print("❌ Gagal mengambil kata dari Datamuse API. Gunakan fallback.")
         return ["default", "kata", "cadangan"]
-
 
 def countdown(seconds):
     print("⏳ Persiapan...")
@@ -97,7 +110,6 @@ def main():
     rounds = 3
     mode = input("Pilih mode (susun / tebak): ").strip().lower()
 
-    # Buat presentasi biar keliatan jawabannya
     cheat = True
     countdown(3)
 
