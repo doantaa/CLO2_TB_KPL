@@ -1,4 +1,4 @@
-print(r"""
+title = """
 
                            ('-.    .-')     .-')           (`\ .-') /`             _  .-')  _ .-') _    .-')    
                          _(  OO)  ( OO ).  ( OO ).          `.( OO ),'            ( \( -O )( (  OO) )  ( OO ).  
@@ -10,11 +10,15 @@ print(r"""
  |  '--'  |('  '-'(_.-'  |  `---.\       /\       /      |   ,'.   |     `'  '-'  '|  |\  \ |  '--'  /\       / 
   `------'   `-----'     `------' `-----'  `-----'       '--'   '--'       `-----' `--' '--'`-------'  `-----'  
                                                                                                                          
-""")
+"""
 
 import time
 import random
 import requests
+import os 
+
+def clear_screen():
+    os.system('cls' if os.name == 'nt' else 'clear')
 
 def fetch_words_from_api(length=5, max_results=10):
     assert isinstance(length, int) and length > 0, "length harus bilangan bulat positif"
@@ -100,6 +104,9 @@ def play_hangman(words, rounds):
     print(f"\n🏁 Selesai! Skor kamu: {score}/{rounds}")
 
 def main():
+    clear_screen()
+    print(title)
+    
     try:
         length = int(input("Masukkan panjang kata yang diinginkan (misal 5): "))
     except ValueError:
