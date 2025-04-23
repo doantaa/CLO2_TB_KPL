@@ -116,7 +116,7 @@ def main():
     if mode == "susun":
         play_susun_kata(words, rounds, cheat)
     elif mode == "tebak":
-        play_hangman(words, rounds)
+        play_hangman(words, 1)
     else:
         print("❌ Mode tidak dikenal.")
 
