@@ -1,7 +1,7 @@
 import unittest
 from unittest.mock import patch
 import builtins
-from main import fetch_words_from_api, play_susun_kata
+from guess_words_main import fetch_words_from_api, play_susun_kata
 
 class TestGameFunctions(unittest.TestCase):
 
@@ -16,7 +16,7 @@ class TestGameFunctions(unittest.TestCase):
         with self.assertRaises(AssertionError):
             fetch_words_from_api(length=-1)
 
-    @patch('builtins.input', side_effect=['wrongword', 'correct'])
+    @patch('builtins.input', side_effect=['correct'])
     def test_play_susun_kata_logic(self, mock_input):
         words = ['correct']
         # cheat=True agar tahu jawabannya
