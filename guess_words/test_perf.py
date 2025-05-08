@@ -1,5 +1,5 @@
 import time
-from main import fetch_words_from_api
+from guess_words_main import fetch_words_from_api
 
 def test_fetch_words_performance():
     print("▶️ Performance Test - fetch_words_from_api")
