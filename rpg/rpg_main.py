@@ -1,11 +1,10 @@
 from player import Player
 from rpg_logic import random_event, heal_player
 import configuration
+from print_library import *
 import time
-import os
 
-def clear_screen():
-    os.system('cls' if os.name == 'nt' else 'clear')
+
 
 def print_menu():
     """Menampilkan menu pilihan dan lokasi saat ini."""
@@ -44,6 +43,7 @@ Welcome to RPG Game!
             clear_screen()
             player.print_header()
             random_event(player)
+            player.print_header()
             print_menu()
         elif choice == "2":
             clear_screen()

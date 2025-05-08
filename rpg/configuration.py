@@ -26,3 +26,5 @@ ENEMIES = {
     "Laba-laba Raksasa": {"hp": 60, "attack_range": (10, 20)},
     "Bison": {"hp": 120, "attack_range": (18, 36)},
 }
+
+
