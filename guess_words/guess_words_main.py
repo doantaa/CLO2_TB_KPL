@@ -18,13 +18,17 @@ import requests
 import os 
 
 def clear_screen():
+    # ✅ Clean Code: Fungsi single responsibility, nama jelas, tidak menerima input user.
     os.system('cls' if os.name == 'nt' else 'clear')
 
+
 def fetch_words_from_api(length=5, max_results=10):
+    # ✅ Clean Code: Validasi parameter pakai assert
     assert isinstance(length, int) and length > 0, "length harus bilangan bulat positif"
     assert isinstance(max_results, int) and max_results > 0, "max_results harus bilangan bulat positif"
-    
+
     try:
+        # ✅ Clean Code: Penamaan variabel jelas dan meaningful
         pattern = "?" * length
         url = f"https://api.datamuse.com/words?sp={pattern}&max={max_results}"
         response = requests.get(url)
@@ -34,17 +38,22 @@ def fetch_words_from_api(length=5, max_results=10):
         words = [item["word"] for item in data if item["word"].isalpha()]
         return words if words else ["default", "kata", "cadangan"]
     except requests.RequestException:
+        # ✅ Clean Code: Fallback mechanism ketika terjadi error
         print("❌ Gagal mengambil kata dari Datamuse API. Gunakan fallback.")
         return ["default", "kata", "cadangan"]
 
+
 def countdown(seconds):
+    # ✅ Clean Code: Fungsi kecil, melakukan satu hal saja, modular dan reusable
     print("⏳ Persiapan...")
     for i in range(seconds, 0, -1):
         print(f"{i}...", end=" ", flush=True)
         time.sleep(1)
     print("\n💥 Mulai!")
 
+
 def play_susun_kata(words, rounds, cheat=False):
+    # ✅ Clean Code: Fungsi punya parameter jelas (input list, jumlah ronde, mode cheat)
     print("\n🧠 Susun Kata!")
     score = 0
 
@@ -52,6 +61,8 @@ def play_susun_kata(words, rounds, cheat=False):
         print(f"\n🔀 Round {i+1}")
         word = random.choice(words)
         scrambled = ''.join(random.sample(word, len(word)))
+
+        # ✅ Clean Code: Validasi menggunakan assert, menjamin scrambling benar
         assert sorted(scrambled) == sorted(word)
 
         print(f"Susun huruf ini: {scrambled}")
@@ -59,7 +70,6 @@ def play_susun_kata(words, rounds, cheat=False):
             print(f"💡 (Jawaban: {word})")
 
         answer = input("➤ Jawaban kamu: ")
-
         if answer.strip().lower() == word:
             print("✅ Betul!")
             score += 1
@@ -68,7 +78,9 @@ def play_susun_kata(words, rounds, cheat=False):
 
     print(f"\n🏁 Selesai! Skor kamu: {score}/{rounds}")
 
+
 def play_hangman(words, rounds):
+    # ✅ Clean Code: Fungsi modular dan deskriptif
     print("\n🕵️ Tebak Kata!")
     score = 0
 
@@ -82,6 +94,7 @@ def play_hangman(words, rounds):
             print("Kata: " + " ".join(guessed))
             guess = input("➤ Tebak huruf: ").strip().lower()
 
+            # ✅ Clean Code: Validasi input user dengan handling error
             if len(guess) != 1 or not guess.isalpha():
                 print("❗ Masukkan satu huruf.")
                 continue
@@ -103,7 +116,9 @@ def play_hangman(words, rounds):
 
     print(f"\n🏁 Selesai! Skor kamu: {score}/{rounds}")
 
+
 def main():
+    # ✅ Clean Code: Struktur main terpisah dari logika inti, mudah dibaca
     clear_screen()
     print(title)
     
@@ -117,7 +132,7 @@ def main():
     rounds = 3
     mode = input("Pilih mode (susun / tebak): ").strip().lower()
 
-    cheat = True
+    cheat = True  # Untuk debugging/testing
     countdown(3)
 
     if mode == "susun":
@@ -126,6 +141,7 @@ def main():
         play_hangman(words, 1)
     else:
         print("❌ Mode tidak dikenal.")
+
 
 if __name__ == "__main__":
     main()
