@@ -2,3 +2,4 @@ simple-term-menu
 requests
 InquirerPy
 bandit
+psutil

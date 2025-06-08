@@ -1,0 +1,26 @@
+📅 Waktu Uji: 2025-06-08 20:36:14
+▶️ Performance Test - fetch_words_from_api
+⏱️ Waktu Eksekusi: 1.3018 detik
+🧠 CPU Usage: ~6.40%
+💾 RAM Usage: ~2.25 MB
+✅ Status: LULUS
+
+🔎 Rangkuman cProfile (Top 10 fungsi berdasarkan cumulative time):
+         6370 function calls (6229 primitive calls) in 1.302 seconds
+
+   Ordered by: cumulative time
+   List reduced from 649 to 10 due to restriction <10>
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1    0.000    0.000    1.301    1.301 guess_words_main.py:27(fetch_words_from_api)
+        1    0.000    0.000    1.301    1.301 api.py:62(get)
+        1    0.000    0.000    1.301    1.301 api.py:14(request)
+        1    0.000    0.000    1.301    1.301 sessions.py:500(request)
+        1    0.000    0.000    1.045    1.045 sessions.py:673(send)
+        1    0.000    0.000    1.044    1.044 adapters.py:613(send)
+        1    0.000    0.000    1.043    1.043 connectionpool.py:592(urlopen)
+        1    0.000    0.000    1.042    1.042 connectionpool.py:377(_make_request)
+        1    0.000    0.000    0.762    0.762 connectionpool.py:1085(_validate_conn)
+        1    0.000    0.000    0.762    0.762 connection.py:669(connect)
+
+
