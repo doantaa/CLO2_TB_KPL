@@ -13,17 +13,20 @@ title = """
 """
 
 import time
-import random
+import random  # CWE-330: Insecure Random Generator [Bandit B311] – digunakan untuk game, aman
 import requests
 import os 
 
 def clear_screen():
     # ✅ Clean Code: Fungsi single responsibility, nama jelas, tidak menerima input user.
+    # 🛡️ CWE-78: Command Injection [Bandit B605]
+    # Aman karena input command hardcoded ('cls' atau 'clear'), tidak berasal dari user
     os.system('cls' if os.name == 'nt' else 'clear')
 
 
 def fetch_words_from_api(length=5, max_results=10):
     # ✅ Clean Code: Validasi parameter pakai assert
+    # 🛡️ CWE-703: assert bisa diabaikan saat Python dijalankan dalam mode optimasi (-O)
     assert isinstance(length, int) and length > 0, "length harus bilangan bulat positif"
     assert isinstance(max_results, int) and max_results > 0, "max_results harus bilangan bulat positif"
 
@@ -31,7 +34,9 @@ def fetch_words_from_api(length=5, max_results=10):
         # ✅ Clean Code: Penamaan variabel jelas dan meaningful
         pattern = "?" * length
         url = f"https://api.datamuse.com/words?sp={pattern}&max={max_results}"
-        response = requests.get(url)
+        # 🛡️ CWE-400: HTTP Request tanpa timeout [Bandit B113]
+        # Tambahkan timeout untuk mencegah hang jika API tidak responsif
+        response = requests.get(url, timeout=5)
         response.raise_for_status()
         data = response.json()
 
@@ -59,10 +64,12 @@ def play_susun_kata(words, rounds, cheat=False):
 
     for i in range(rounds):
         print(f"\n🔀 Round {i+1}")
+        # 🛡️ CWE-330: random tidak aman untuk keperluan kriptografi [Bandit B311]
         word = random.choice(words)
         scrambled = ''.join(random.sample(word, len(word)))
 
         # ✅ Clean Code: Validasi menggunakan assert, menjamin scrambling benar
+        # 🛡️ CWE-703: assert dapat diabaikan jika di-run dengan optimasi [Bandit B101]
         assert sorted(scrambled) == sorted(word)
 
         print(f"Susun huruf ini: {scrambled}")
@@ -86,6 +93,7 @@ def play_hangman(words, rounds):
 
     for i in range(rounds):
         print(f"\n🎯 Round {i+1}")
+        # 🛡️ CWE-330: penggunaan random aman karena hanya untuk game
         word = random.choice(words)
         guessed = ["_"] * len(word)
         attempts = len(word) + 2
