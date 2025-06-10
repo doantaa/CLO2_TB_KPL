@@ -1,6 +1,24 @@
+import os
+
+def clear_screen():
+    # Membersihkan layar tergantung sistem operasi
+    os.system('cls' if os.name == 'nt' else 'clear')
+
+def tampilkan_judul():
+    clear_screen()
+    print("""
+████████╗██╗ ██████╗      ████████╗ █████╗  ██████╗     ████████╗ ██████╗ ███████╗
+╚══██╔══╝██║██╔════╝      ╚══██╔══╝██╔══██╗██╔════╝     ╚══██╔══╝██╔═══██╗██╔════╝
+   ██║   ██║██║              ██║   ███████║██║             ██║   ██║   ██║█████╗  
+   ██║   ██║██║              ██║   ██╔══██║██║             ██║   ██║   ██║██╔══╝  
+   ██║   ██║╚██████╗         ██║   ██║  ██║╚██████╗        ██║   ╚██████╔╝███████╗
+   ╚═╝   ╚═╝ ╚═════╝         ╚═╝   ╚═╝  ╚═╝ ╚═════╝        ╚═╝    ╚═════╝ ╚══════╝
+    """)
 
 # Mulai game
 def start_game():
+    tampilkan_judul()
+
     player1_name = input("Masukkan nama pemain 1 (X): ")
     player2_name = input("Masukkan nama pemain 2 (O): ")
 
@@ -9,9 +27,9 @@ def start_game():
         player2_name: {'symbol': 'O', 'wins': 0}
     }
 
-    play_again = 'y'
+    play_again = 'yes'
 
-    while play_again.lower() == 'y':
+    while play_again.lower() == 'yes':
         board = ['1','2','3','4','5','6','7','8','9']
         current_symbol = 'X'
         current_player = player1_name
@@ -50,8 +68,7 @@ def display_board(board):
     print(" {} | {} | {} ".format(board[6], board[7], board[8]))
     print("\n")
 
-
-# Tabel kombinasi kemenangan
+# Kombinasi kemenangan
 winning_combinations = [
     (0, 1, 2), (3, 4, 5), (6, 7, 8),  # Baris
     (0, 3, 6), (1, 4, 7), (2, 5, 8),  # Kolom
@@ -81,7 +98,7 @@ def display_scoreboard(scoreboard):
         print(f"{name} ({score['symbol']}): {score['wins']} menang")
     print("============================\n")
 
-# Table-Driven Construction (menu navigasi)
+# Table-Driven Construction (Menu utama)
 def main_menu():
     actions = {
         "1": start_game,
@@ -104,7 +121,6 @@ def main_menu():
 def exit_game():
     print("Terima kasih telah bermain! 👋")
     exit()
-
 
 # Jalankan program
 if __name__ == "__main__":
