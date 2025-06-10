@@ -1,0 +1,20 @@
+📅 Waktu Uji: 2025-06-10 17:36:40
+⏱️ Waktu Eksekusi: 0.0796 detik
+🧠 CPU Usage: ~1.80%
+💾 RAM Usage: ~15.52 MB
+✅ Status: SUKSES ✅
+🔎 Rangkuman cProfile (Top 10 fungsi):
+
+         190002 function calls in 0.072 seconds
+
+   Ordered by: cumulative time
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1    0.007    0.007    0.079    0.079 test_performance_game.py:9(run_performance_test)
+    20000    0.024    0.000    0.048    0.000 {built-in method builtins.all}
+    10000    0.005    0.000    0.037    0.000 D:\SEMESTER 6\PRAKKPL_TUGASBESAR\CLO2_TB_KPL\tic_tac_toe\tic_tac_toe_main.py:81(check_draw)
+    10000    0.009    0.000    0.036    0.000 D:\SEMESTER 6\PRAKKPL_TUGASBESAR\CLO2_TB_KPL\tic_tac_toe\tic_tac_toe_main.py:78(check_win)
+    10000    0.003    0.000    0.025    0.000 {built-in method builtins.any}
+   100000    0.016    0.000    0.016    0.000 D:\SEMESTER 6\PRAKKPL_TUGASBESAR\CLO2_TB_KPL\tic_tac_toe\tic_tac_toe_main.py:82(<genexpr>)
+    40000    0.008    0.000    0.008    0.000 D:\SEMESTER 6\PRAKKPL_TUGASBESAR\CLO2_TB_KPL\tic_tac_toe\tic_tac_toe_main.py:79(<genexpr>)
+        1    0.000    0.000    0.000    0.000 {method 'disable' of '_lsprof.Profiler' objects}
