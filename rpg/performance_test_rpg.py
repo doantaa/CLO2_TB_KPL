@@ -25,7 +25,7 @@ def test_random_events():
 
 def run_tests():
     print("📊 PERFORMANCE TESTING\n")
-    tests = [test_battle]
+    tests = [test_battle, test_random_events]
     for test in tests:
         name, duration = test()
         print(f"{name}: {duration:.4f} detik")
