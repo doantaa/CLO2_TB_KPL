@@ -1,0 +1,26 @@
+📅 Waktu Uji: 2025-06-12 01:37:40
+▶️ Performance Test - random_event(player)
+⏱️ Waktu Eksekusi: 0.9234 detik
+🧠 CPU Usage: ~10.10%
+💾 RAM Usage: ~0.16 MB
+✅ Status: LULUS
+
+🔎 Rangkuman cProfile (Top 10 fungsi berdasarkan cumulative time):
+         99 function calls in 0.923 seconds
+
+   Ordered by: cumulative time
+   List reduced from 25 to 10 due to restriction <10>
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1    0.000    0.000    0.923    0.923 rpg_logic.py:40(random_event)
+        1    0.000    0.000    0.923    0.923 rpg_logic.py:8(battle)
+        4    0.886    0.222    0.886    0.222 {built-in method builtins.input}
+        3    0.000    0.000    0.037    0.012 header.py:3(clear_screen)
+        3    0.000    0.000    0.037    0.012 os.py:1121(system)
+        3    0.037    0.012    0.037    0.012 {built-in method posix.system}
+       30    0.000    0.000    0.000    0.000 {built-in method builtins.print}
+        3    0.000    0.000    0.000    0.000 player.py:17(attack)
+        5    0.000    0.000    0.000    0.000 random.py:334(randint)
+        2    0.000    0.000    0.000    0.000 player.py:34(print_header)
+
+
