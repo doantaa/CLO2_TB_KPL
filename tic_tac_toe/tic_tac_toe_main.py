@@ -1,10 +1,14 @@
-import os
+import os # ✅ Clean Code: Import standar, hanya library yang digunakan
+          # 🛡️ CWE-78: Command Injection [Bandit B605] – aman karena input tidak dari user
 
 def clear_screen():
     # Membersihkan layar tergantung sistem operasi
+    # ✅ Clean Code: Single responsibility, nama deskriptif
+    # 🛡️ CWE-78: Aman karena hanya mengeksekusi perintah sistem yang hardcoded
     os.system('cls' if os.name == 'nt' else 'clear')
 
 def tampilkan_judul():
+     # ✅ Clean Code: Fungsi modular untuk menampilkan banner
     clear_screen()
     print("""
 ████████╗██╗ ██████╗      ████████╗ █████╗  ██████╗     ████████╗ ██████╗ ███████╗
@@ -17,6 +21,7 @@ def tampilkan_judul():
 
 # Mulai game
 def start_game():
+    # ✅ Clean Code: Fungsi utama gameplay, modularisasi sudah dilakukan
     tampilkan_judul()
 
     player1_name = input("Masukkan nama pemain 1 (X): ")
@@ -52,6 +57,7 @@ def start_game():
                 print("😐 Yahh permainan seri.")
                 game_over = True
             else:
+                # ✅ Clean Code: Pergantian giliran ditulis ringkas
                 current_symbol = 'O' if current_symbol == 'X' else 'X'
                 current_player = player2_name if current_player == player1_name else player1_name
 
@@ -60,6 +66,7 @@ def start_game():
     display_scoreboard(scoreboard)
 
 def display_board(board):
+    # ✅ Clean Code: Fungsi ini hanya bertugas menampilkan papan
     print("\n")
     print(" {} | {} | {} ".format(board[0], board[1], board[2]))
     print("---+---+---")
@@ -69,6 +76,7 @@ def display_board(board):
     print("\n")
 
 # Kombinasi kemenangan
+# ✅ Clean Code: Deklarasi konstanta di luar fungsi
 winning_combinations = [
     (0, 1, 2), (3, 4, 5), (6, 7, 8),  # Baris
     (0, 3, 6), (1, 4, 7), (2, 5, 8),  # Kolom
@@ -76,12 +84,17 @@ winning_combinations = [
 ]
 
 def check_win(board, player_symbol):
+    # ✅ Clean Code: Menggunakan fungsi built-in any dan all
+    # 🛡️ Tidak ada CWE: logika murni tanpa input dari user
     return any(all(board[i] == player_symbol for i in combo) for combo in winning_combinations)
 
 def check_draw(board):
+    # ✅ Clean Code: Nama jelas, logika ringkas
     return all(cell in ['X', 'O'] for cell in board)
 
 def get_valid_move(board):
+    # ✅ Clean Code: Validasi input dilakukan dengan try-except
+    # 🛡️ CWE-20: Improper Input Validation – sudah ditangani dengan try/except
     while True:
         try:
             move = int(input("Pilih posisi (1-9): ")) - 1
@@ -93,12 +106,15 @@ def get_valid_move(board):
             print("Input harus berupa angka antara 1 hingga 9.")
 
 def display_scoreboard(scoreboard):
+    # ✅ Clean Code: Tugas tunggal, nama jelas
     print("\n===== SCOREBOARD AKHIR =====")
     for name, score in scoreboard.items():
         print(f"{name} ({score['symbol']}): {score['wins']} menang")
     print("============================\n")
 
 # Table-Driven Construction (Menu utama)
+# ✅ Clean Code: Gunakan data driven structure
+# 🛡️ Tidak ada CWE: dictionary action aman karena nilai tetap
 def main_menu():
     actions = {
         "1": start_game,
@@ -118,10 +134,12 @@ def main_menu():
             print("Pilihan tidak valid, coba lagi.")
 
 # Fungsi keluar
+# ✅ Clean Code: Fungsi keluar program
 def exit_game():
     print("Terima kasih telah bermain! 👋")
     exit()
 
 # Jalankan program
+# ✅ Clean Code: Entry point program
 if __name__ == "__main__":
     main_menu()
