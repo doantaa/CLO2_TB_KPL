@@ -20,7 +20,7 @@ class TestPlayer(unittest.TestCase):
         self.assertEqual(self.player.level, 2)
         self.assertEqual(self.player.exp, 0)
         self.assertEqual(self.player.hp, self.player.max_hp)
-        self.assertEqual(self.player.exp_to_next, 150)  # 100 + 50
+        self.assertEqual(self.player.exp_to_next, 150)
 
     def test_heal_player(self):
         self.player.hp = 50
@@ -32,7 +32,7 @@ class TestPlayer(unittest.TestCase):
         self.player.hp = 95
         with patch('random.randint', return_value=20):
             heal_player(self.player)
-            self.assertEqual(self.player.hp, 100)  # max_hp
+            self.assertEqual(self.player.hp, 100)
 
 class TestEnemy(unittest.TestCase):
 

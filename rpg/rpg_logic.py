@@ -3,14 +3,10 @@
 # ====================
 
 import random
-import os
 import configuration
 from player import Enemy
+from print_library import *
 
-
-
-def clear_screen():
-    os.system('cls' if os.name == 'nt' else 'clear')
 
 def battle(player, enemy):
     while player.hp > 0 and enemy.hp > 0:
