@@ -24,7 +24,7 @@ def test_random_events():
 
 
 def run_tests():
-    print("📊 SIMPLE PERFORMANCE TESTING\n")
+    print("📊 PERFORMANCE TESTING\n")
     tests = [test_battle]
     for test in tests:
         name, duration = test()
